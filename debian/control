@@ -1,0 +1,29 @@
+Source: node-js-tokens
+Maintainer: Debian Javascript Maintainers <pkg-javascript-devel@lists.alioth.debian.org>
+Uploaders: Lucas de Castro Borges <lucas@gnuabordo.com.br>
+Section: javascript
+Testsuite: autopkgtest-pkg-nodejs
+Priority: optional
+Build-Depends:
+ coffeescript
+ , debhelper-compat (= 13)
+ , dh-sequence-nodejs
+ , jest <!nocheck>
+ , node-everything.js <!nocheck>
+Standards-Version: 4.5.1
+Vcs-Browser: https://salsa.debian.org/js-team/node-js-tokens
+Vcs-Git: https://salsa.debian.org/js-team/node-js-tokens.git
+Homepage: https://github.com/lydell/js-tokens
+Rules-Requires-Root: no
+
+Package: node-js-tokens
+Architecture: all
+Depends:
+ ${misc:Depends}
+Multi-Arch: foreign
+Description: Regex that tokenizes JavaScript
+ js-tokens provides a regex with the g flag that matches JavaScript tokens.
+ The regex always matches, even invalid JavaScript and the empty string.
+ The next match is always directly after the previous.
+ .
+ Node.js is an event-based server-side JavaScript engine.

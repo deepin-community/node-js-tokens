@@ -1,0 +1,56 @@
+node-js-tokens (6.0.0-1) unstable; urgency=medium
+
+  * Team upload
+
+  [ Debian Janitor ]
+  * Remove obsolete fields Contact, Name from debian/upstream/metadata
+    (already present in machine-readable debian/copyright).
+  * Apply multi-arch hints.
+    + node-js-tokens: Add Multi-Arch: foreign.
+  * Update renamed lintian tag names in lintian overrides.
+  * Update standards version to 4.5.0, no changes needed.
+
+  [ Xavier Guimard ]
+  * Bump debhelper compatibility level to 13
+  * Declare compliance with policy 4.5.1
+  * Use dh-sequence-nodejs
+  * New upstream version 6.0.0
+  * Embed test262-parser-tests for test only
+  * Update build:
+    + set name in debian/nodejs/name
+    + set debian/nodejs/main to "build/"
+  * Update test (jest instead of mocha)
+  * Update lintian overrides
+
+ -- Xavier Guimard <yadd@debian.org>  Tue, 22 Dec 2020 13:34:51 +0100
+
+node-js-tokens (5.0.0-1) unstable; urgency=medium
+
+  * Team upload
+  * Back to unstable after successful tests
+  * Declare compliance with policy 4.4.1
+  * Add "Rules-Requires-Root: no"
+  * Add debian/gbp.conf
+  * New upstream version 5.0.0
+
+ -- Xavier Guimard <yadd@debian.org>  Tue, 19 Nov 2019 19:49:44 +0100
+
+node-js-tokens (4.0.0-1) experimental; urgency=medium
+
+  * Team upload
+  * New upstream version 4.0.0
+  * Add d/upstream/metadata
+  * Switch test and install to pkg-js-tools
+  * Update d/{compat, control, copyright} wrt cme
+  * Bump Standards-Version to 4.4.0
+  * Bump debhelper-compat to 12
+  * Update d/docs
+  * Update lintian-overrides
+
+ -- Utkarsh Gupta <guptautkarsh2102@gmail.com>  Sat, 31 Aug 2019 15:40:20 +0530
+
+node-js-tokens (2.0.0-1) unstable; urgency=medium
+
+  * Initial release (Closes: #842857)
+
+ -- Lucas de Castro Borges <lucas@gnuabordo.com.br>  Mon, 31 Oct 2016 10:42:07 -0300

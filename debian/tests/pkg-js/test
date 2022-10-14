@@ -1,0 +1,2 @@
+ln -s . build || true
+jest --ci -u

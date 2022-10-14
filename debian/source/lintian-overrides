@@ -1,0 +1,8 @@
+# Test data
+source-is-missing debian/tests/test_modules/test262-parser-tests/pass-explicit/0b1fc7208759253b.js line length is 399 characters (>256)
+source-is-missing debian/tests/test_modules/test262-parser-tests/pass/0b1fc7208759253b.js line length is 1026 characters (>512)
+national-encoding debian/tests/test_modules/test262-parser-tests/pass-explicit/20aca21e32bf7772.js
+# False positive warnings, because the lines is really large.
+source-contains-prebuilt-javascript-object debian/tests/test_modules/test262-parser-tests/pass-explicit/0b1fc7208759253b.js line length is 399 characters (>256)
+source-contains-prebuilt-javascript-object debian/tests/test_modules/test262-parser-tests/pass/0b1fc7208759253b.js line length is 1026 characters (>512)
+very-long-line-length-in-source-file debian/tests/test_modules/test262-parser-tests/pass/0b1fc7208759253b.js line length is 1026 characters (>512)

@@ -1,0 +1,16 @@
+Description: fix test paths
+Author: Xavier Guimard <yadd@debian.org>
+Forwarded: not-needed
+Last-Update: 2020-12-22
+
+--- a/test/fixtures.test.js
++++ b/test/fixtures.test.js
+@@ -154,7 +154,7 @@
+ 
+ const valid = [
+   "./test/fixtures/valid",
+-  "./node_modules/everything.js",
++  "/usr/share/nodejs/everything.js",
+   "./node_modules/test262-parser-tests/pass",
+   "./node_modules/test262-parser-tests/pass-explicit",
+ ];
