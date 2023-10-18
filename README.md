@@ -11,41 +11,6 @@ Array.from(jsTokens(jsString), (token) => token.value).join("|");
 // JSON|.|stringify|(|{|k|:|3.14|**|2|}|,| |null| |/*replacer*/|,| |"\t"|)
 ```
 
-<!-- START doctoc generated TOC please keep comment here to allow auto update -->
-<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
-
-- [Installation](#installation)
-- [Usage](#usage)
-- [Tokens](#tokens)
-  - [StringLiteral](#stringliteral)
-  - [NoSubstitutionTemplate / TemplateHead / TemplateMiddle / TemplateTail](#nosubstitutiontemplate--templatehead--templatemiddle--templatetail)
-  - [RegularExpressionLiteral](#regularexpressionliteral)
-  - [MultiLineComment](#multilinecomment)
-  - [SingleLineComment](#singlelinecomment)
-  - [IdentifierName](#identifiername)
-  - [NumericLiteral](#numericliteral)
-  - [Punctuator](#punctuator)
-  - [WhiteSpace](#whitespace)
-  - [LineTerminatorSequence](#lineterminatorsequence)
-  - [Invalid](#invalid)
-- [JSX Tokens](#jsx-tokens)
-  - [JSXString](#jsxstring)
-  - [JSXText](#jsxtext)
-  - [JSXIdentifier](#jsxidentifier)
-  - [JSXPunctuator](#jsxpunctuator)
-  - [JSXInvalid](#jsxinvalid)
-- [Compatibility](#compatibility)
-  - [ECMAScript](#ecmascript)
-    - [Annex B](#annex-b)
-  - [TypeScript](#typescript)
-  - [JSX](#jsx)
-  - [JavaScript runtimes](#javascript-runtimes)
-  - [Known errors](#known-errors)
-- [Performance](#performance)
-- [License](#license)
-
-<!-- END doctoc generated TOC please keep comment here to allow auto update -->
-
 ## Installation
 
 `npm install js-tokens`
@@ -99,6 +64,7 @@ type Token =
   | { type: "MultiLineComment"; value: string; closed: boolean }
   | { type: "SingleLineComment"; value: string }
   | { type: "IdentifierName"; value: string }
+  | { type: "PrivateIdentifier"; value: string }
   | { type: "NumericLiteral"; value: string }
   | { type: "Punctuator"; value: string }
   | { type: "WhiteSpace"; value: string }
@@ -240,6 +206,34 @@ $variab1e_name
 \u006C\u006F\u006C\u0077\u0061\u0074
 ```
 
+### PrivateIdentifier
+
+_Spec: [PrivateIdentifier]_
+
+Any `IdentifierName` preceded by a `#`.
+
+Examples:
+
+<!-- prettier-ignore -->
+```js
+#if
+#for
+#var
+#instanceof
+#package
+#null
+#true
+#false
+#Infinity
+#undefined
+#NaN
+#$variab1e_name
+#π
+#℮
+#ಠ_ಠ
+#\u006C\u006F\u006C\u0077\u0061\u0074
+```
+
 ### NumericLiteral
 
 _Spec: [NumericLiteral]_
@@ -251,9 +245,10 @@ Examples:
 0
 1.5
 1
+1_000
 12e9
 0.123e-32
-0xDeadbeef
+0xDead_beef
 0b110
 12n
 07
@@ -295,7 +290,7 @@ CR, LF and CRLF, plus `\u2028` and `\u2029`.
 
 _Spec: n/a_
 
-Single code points not matched in another tokens.
+Single code points not matched in another token.
 
 Examples:
 
@@ -424,7 +419,7 @@ All possible values in JSX children:
 
 The intention is to always support the latest ECMAScript version whose feature set has been finalized.
 
-Currently, ECMAScript 2020 is supported.
+Currently, ECMAScript 2022 is supported.
 
 #### Annex B
 
@@ -453,7 +448,7 @@ JSX is supported: `jsTokens("<p>Hello, world!</p>", { jsx: true })`.
 
 ### JavaScript runtimes
 
-js-tokens should work in any JavaScript runtime that supports [Unicode property escapes]. For Node.js, this means Node.js 10 or later.
+js-tokens should work in any JavaScript runtime that supports [Unicode property escapes].
 
 ### Known errors
 
@@ -535,6 +530,7 @@ This happens because js-tokens looks at the previous token when deciding between
 
 In case 1 and 2, that’s a `:`. A `:` _usually_ means that we have an object literal or ternary:
 
+<!-- prettier-ignore -->
 ```js
 let some = weird ? { value: {}/a/g } : {}/a/g;
 ```
@@ -582,31 +578,27 @@ Luckily, none of these edge cases are likely to occur in real code.
 
 ## Performance
 
-With [@babel/parser] for comparison.
+With [@babel/parser] for comparison. Node.js 18.1.0 on Ubuntu 20.04.
 
-| Lines of code |    Size | js-tokens@6.0.0 | @babel/parser@7.9.4 |
-| ------------: | ------: | --------------: | ------------------: |
-|          ~100 | ~4.8 KB |           ~2 ms |              ~17 ms |
-|        ~1 000 |  ~46 KB |          ~11 ms |              ~84 ms |
-|       ~10 000 | ~409 KB |          ~80 ms |             ~550 ms |
-|      ~100 000 | ~3.3 MB |         ~430 ms |             ~7.45 s |
-|    ~1 500 000 |  ~77 MB |            ~7 s |     ~4 minutes (\*) |
+| Lines of code |     Size | js-tokens@8.0.0 | @babel/parser@7.14.4 |
+| ------------: | -------: | --------------: | -------------------: |
+|          ~100 | ~4.3 KiB |           ~2 ms |               ~17 ms |
+|        ~1 000 |  ~39 KiB |           ~5 ms |               ~60 ms |
+|       ~10 000 | ~353 KiB |          ~50 ms |              ~273 ms |
+|      ~100 000 | ~4.7 MiB |         ~385 ms |               ~4.7 s |
+|    ~2 300 000 | ~132 MiB |           ~10 s |          failed (\*) |
 
-(\*) Required increasing Node.js’ memory limit.
+(\*) Out of memory crash after ~9 minutes (even though I had increased the memory limit to 8 GiB).
 
 See [benchmark.js] if you want to run benchmarks yourself.
-
-## License
-
-[MIT](LICENSE).
 
 [@babel/parser]: https://babeljs.io/docs/en/babel-parser
 [additional syntax]: https://tc39.es/ecma262/#sec-additional-syntax
 [annexb]: https://tc39.es/ecma262/#sec-additional-ecmascript-features-for-web-browsers
-[benchmark.js]: https://github.com/lydell/js-tokens/blob/master/benchmark.js
+[benchmark.js]: benchmark.js
 [divpunctuator]: https://tc39.es/ecma262/#prod-DivPunctuator
 [ecmascript language: lexical grammar]: https://tc39.es/ecma262/#sec-ecmascript-language-lexical-grammar
-[example.test.js]: https://github.com/lydell/js-tokens/blob/master/test/example.test.js
+[example.test.js]: test/example.test.js
 [identifiername]: https://tc39.es/ecma262/#prod-IdentifierName
 [identifierpart]: https://tc39.es/ecma262/#prod-IdentifierPart
 [jsx specification]: https://facebook.github.io/jsx/
@@ -614,6 +606,7 @@ See [benchmark.js] if you want to run benchmarks yourself.
 [multilinecomment]: https://tc39.es/ecma262/#prod-MultiLineComment
 [nosubstitutiontemplate]: https://tc39.es/ecma262/#prod-NoSubstitutionTemplate
 [numericliteral]: https://tc39.es/ecma262/#prod-annexB-NumericLiteral
+[privateidentifier]: https://tc39.es/ecma262/#prod-PrivateIdentifier
 [punctuator]: https://tc39.es/ecma262/#prod-Punctuator
 [regularexpressionliteral]: https://tc39.es/ecma262/#prod-RegularExpressionLiteral
 [rightbracepunctuator]: https://tc39.es/ecma262/#prod-RightBracePunctuator
@@ -625,7 +618,7 @@ See [benchmark.js] if you want to run benchmarks yourself.
 [templatemiddle]: https://tc39.es/ecma262/#prod-TemplateMiddle
 [templatetail]: https://tc39.es/ecma262/#prod-TemplateTail
 [test262-parser-tests]: https://github.com/tc39/test262-parser-tests
-[tsx fixture]: https://github.com/lydell/js-tokens/blob/master/test/fixtures/valid/jsx2.tsx
-[typescript fixture]: https://github.com/lydell/js-tokens/blob/master/test/fixtures/valid/typescript.module.ts
+[tsx fixture]: test/fixtures/valid/jsx2.tsx
+[typescript fixture]: test/fixtures/valid/typescript.module.ts
 [unicode property escapes]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions/Unicode_Property_Escapes
 [whitespace]: https://tc39.es/ecma262/#prod-WhiteSpace

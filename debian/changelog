@@ -1,3 +1,38 @@
+node-js-tokens (8.0.0-2) unstable; urgency=medium
+
+  * Team upload
+  * Add fix for jest >= 29 (Closes: #1022417)
+
+ -- Yadd <yadd@debian.org>  Sun, 23 Oct 2022 19:53:04 +0200
+
+node-js-tokens (8.0.0-1) unstable; urgency=medium
+
+  * Team upload
+  * Add breaks node-loose-envify <= 1.4.0+dfsg1-3~
+  * Declare compliance with policy 4.6.1
+  * New upstream version 8.0.0 (add ES2022 support)
+  * Drop old coffee-path patch
+
+ -- Yadd <yadd@debian.org>  Mon, 25 Jul 2022 17:26:43 +0200
+
+node-js-tokens (7.0.0-1) unstable; urgency=medium
+
+  * Team upload
+  * New upstream version 7.0.0
+  * Fix test (Closes: #1002752)
+
+ -- Yadd <yadd@debian.org>  Wed, 29 Dec 2021 07:45:00 +0100
+
+node-js-tokens (6.0.0-2) unstable; urgency=medium
+
+  * Team upload
+  * Fix GitHub tags regex
+  * Update standards version to 4.6.0, no changes needed
+  * Fix filenamemangle
+  * Update lintian overrides
+
+ -- Yadd <yadd@debian.org>  Sun, 21 Nov 2021 22:27:20 +0100
+
 node-js-tokens (6.0.0-1) unstable; urgency=medium
 
   * Team upload

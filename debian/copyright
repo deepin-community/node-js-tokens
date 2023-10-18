@@ -9,7 +9,7 @@ License: Expat
 
 Files: debian/*
 Copyright: 2016, Lucas de Castro Borges <lucascastroborges@gmail.com>
- 2020, Xavier Guimard <yadd@debian.org>
+ 2020, Yadd <yadd@debian.org>
 License: Expat
 
 Files: debian/tests/test_modules/test262-parser-tests/*
