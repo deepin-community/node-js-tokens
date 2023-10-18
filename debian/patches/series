@@ -1,2 +1,3 @@
-fix-coffee-path.patch
 fix-test-paths.patch
+fix-test.patch
+fix-for-jest-29.patch

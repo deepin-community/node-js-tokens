@@ -58,6 +58,18 @@ function babel(code, sourceType, fileType) {
       }
     }
 
+    if (token.type.label === "#") {
+      const next = tokens[index + 1];
+      if (next && next.type.label === "name") {
+        result.push({
+          type: "PrivateIdentifier",
+          value: `#${next.value}`,
+        });
+        index += 1;
+        continue;
+      }
+    }
+
     if (token.type.label === "eof") {
       continue;
     }
@@ -102,7 +114,7 @@ function readJsonIfExists(file) {
 }
 
 function runFile(file, { compareWithBabel = true } = {}) {
-  const code = fs.readFileSync(file, "utf8");
+  const code = fs.readFileSync(file, "utf8").replace(/\r\n/g, "\n");
   const json = readJsonIfExists(file.replace(/\.\w+$/, ".json"));
 
   const sourceType = /[.-]module\.\w+$/.test(file) ? "module" : "script";
@@ -165,12 +177,14 @@ const invalid = [
   "./node_modules/test262-parser-tests/early",
 ];
 
-const ignored = new Set([
-  // Known cases where js-tokens mis-identifies regex as division.
-  "node_modules/test262-parser-tests/pass/9d3d960e32528788.js",
-  "node_modules/test262-parser-tests/pass/d53aef16fe683218.js",
-  "node_modules/test262-parser-tests/pass-explicit/d53aef16fe683218.js",
-]);
+const ignored = new Set(
+  [
+    // Known cases where js-tokens mis-identifies regex as division.
+    "node_modules/test262-parser-tests/pass/9d3d960e32528788.js",
+    "node_modules/test262-parser-tests/pass/d53aef16fe683218.js",
+    "node_modules/test262-parser-tests/pass-explicit/d53aef16fe683218.js",
+  ].map(path.normalize)
+);
 
 describe("valid", () => {
   for (const dir of valid) {

@@ -15,7 +15,7 @@ const FILES_TO_COPY = [
   { src: "package-real.json", dest: "package.json" },
   {
     src: "README.md",
-    transform: (content) => content.replace(/<!--[^]*$/, READ_MORE),
+    transform: (content) => content.replace(/^##[^]*/m, READ_MORE),
   },
   {
     src: "index.coffee",
@@ -24,16 +24,13 @@ const FILES_TO_COPY = [
       coffee
         .compile(content, { bare: true })
         .replace(/ {2}/g, "\t")
-        .replace(/\/\/ https.*\n/g, "")
+        .replace(/\/\/ (?:Note:|https).*\n/g, "")
         .replace(/\n\n/g, "\n")
         .replace(/\{\s*(tag: "[^"]+")\s*\}/g, "{$1}"),
   },
 ];
 
-if (fs.existsSync(BUILD)) {
-  fs.rmdirSync(BUILD, { recursive: true });
-}
-
+fs.rmSync(BUILD, { recursive: true, force: true });
 fs.mkdirSync(BUILD);
 
 for (const { src, dest = src, transform } of FILES_TO_COPY) {

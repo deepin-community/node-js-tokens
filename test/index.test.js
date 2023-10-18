@@ -531,6 +531,106 @@ describe("Token", () => {
     match("0b1.1", "0b1");
     match("0.0b1", "0.0");
     match(".0b1", ".0");
+
+    match("_0", false);
+    match("_0n", false);
+    match("_.0", false);
+    match("_0.0", false);
+    match("_0e0", false);
+    match("_0x0", false);
+    match("_0x0n", false);
+    match("_0o0", false);
+    match("_0o0n", false);
+    match("_0b0", false);
+    match("_0b0n", false);
+
+    match("0_", "0");
+    match("0n_", "0n");
+    match(".0_", ".0");
+    match("0.0_", "0.0");
+    match("0e0_", "0e0");
+    match("0x0_", "0x0");
+    match("0o0_", "0o0");
+    match("0b0_", "0b0");
+
+    match("0_n", "0");
+    match("1_n", "1");
+    match("0_.0", "0");
+    match("1_.0", "1");
+    match("0_e0", "0");
+    match("1_e0", "1");
+    match("0_x0", "0");
+    match("0_x0n", "0");
+    match("0_o0", "0");
+    match("0_o0n", "0");
+    match("0_b0", "0");
+    match("0_b0n", "0");
+
+    match("0._0", "0.");
+    match("0e_0", "0");
+    match("0x_0", "0");
+    match("0x_0n", "0");
+    match("0o_0", "0");
+    match("0o_0n", "0");
+    match("0b_0", "0");
+    match("0b_0n", "0");
+
+    match("0_0", "0");
+    match("0_0n", "0");
+    match("1_0");
+    match("1_0n");
+    match(".0_0");
+    match("0.0_0");
+    match("0e0_0");
+    match("0x0_0");
+    match("0x0_0n");
+    match("0o0_0");
+    match("0o0_0n");
+    match("0b0_0");
+    match("0b0_0n");
+
+    match("1__0", "1");
+    match("1__0n", "1");
+    match("1__0.0", "1");
+    match(".0__0", ".0");
+    match("0.0__0", "0.0");
+    match("1__0e0", "1");
+    match("0e0__0", "0e0");
+    match("0x0__0", "0x0");
+    match("0x0__0n", "0x0");
+    match("0o0__0", "0o0");
+    match("0o0__0n", "0o0");
+    match("0b0__0", "0b0");
+    match("0b0__0n", "0b0");
+
+    match("0x0_fg", "0x0_f");
+    match("0o0_78", "0o0_7");
+    match("0b0_12", "0b0_1");
+
+    match("1_2_3_4_5_6_7_8_9_0");
+    match("1_2_3_4_5_6_7_8_9_0n");
+    match(".0_1_2_3_4_5_6_7_8_9");
+    match("1_2_3_4_5_6_7_8_9_0.0_1_2_3_4_5_6_7_8_9");
+    match("1_2_3_4_5_6_7_8_9_0.0_1_2_3_4_5_6_7_8_9e+0_1_2_3_4_5_6_7_8_9");
+    match("0x0_1_2_3_4_5_6_7_8_9_a_b_c_d_e_f");
+    match("0X0_1_2_3_4_5_6_7_8_9_a_b_c_d_e_f");
+    match("0x0_1_2_3_4_5_6_7_8_9_a_b_c_d_e_fn");
+    match("0X0_1_2_3_4_5_6_7_8_9_a_b_c_d_e_fn");
+    match("0o0_1_2_3_4_5_6_7");
+    match("0O0_1_2_3_4_5_6_7");
+    match("0o0_1_2_3_4_5_6_7n");
+    match("0O0_1_2_3_4_5_6_7n");
+    match("0b0_1_1_0");
+    match("0B0_1_1_0");
+    match("0b0_1_1_0n");
+    match("0B0_1_1_0n");
+
+    match("1_335_000");
+    match("0b111_111_000");
+    match("0b1111_10101011_11110000_00001101");
+    match("0xFAB_F00D");
+    match("9.109_383_56e-31");
+    match("1e1_2");
   });
 
   testToken("IdentifierName", [], (match) => {
@@ -607,6 +707,81 @@ describe("Token", () => {
     match("\\x09", false);
   });
 
+  testToken("PrivateIdentifier", [], (match) => {
+    match("#", false);
+    match("#$");
+    match("#_");
+    match("#a");
+    match("#z");
+    match("#A");
+    match("#Z");
+    match("#å");
+    match("#π");
+    match("#0", false);
+    match("#0a", false);
+    match("#$0");
+    match("#_0");
+    match("#a0");
+    match("#z0");
+    match("#A0");
+    match("#Z0");
+    match("#å0");
+    match("#π0");
+    match("#a_56åπ");
+    match("#℮");
+    match("#℘");
+    match("#゛");
+    match("#゜");
+    match("#℮℘");
+    match("#·", false);
+    match("#℮·");
+    match("#·", false);
+    match("#℮·");
+    match("#᧚", false);
+    match("#℮᧚");
+    match("#Iñtërnâtiônàlizætiøn");
+
+    match("#a\u00a0", "#a");
+    match("#a\u1680", "#a");
+    match("#a\u2000", "#a");
+    match("#a\u2001", "#a");
+    match("#a\u2002", "#a");
+    match("#a\u2003", "#a");
+    match("#a\u2004", "#a");
+    match("#a\u2005", "#a");
+    match("#a\u2006", "#a");
+    match("#a\u2007", "#a");
+    match("#a\u2008", "#a");
+    match("#a\u2009", "#a");
+    match("#a\u200a", "#a");
+    match("#a\u2028", "#a");
+    match("#a\u2029", "#a");
+    match("#a\u202f", "#a");
+    match("#a\u205f", "#a");
+    match("#a\u3000", "#a");
+
+    match("#\\u0000");
+    match("#\\u15cF");
+    match("#\\u15cG", false);
+    match("#\\u000", false);
+    match("#\\u00000");
+    match("#a\\u0000b");
+
+    match("#\\u{0}");
+    match("#\\u{01}");
+    match("#\\u{012}");
+    match("#\\u{0123}");
+    match("#\\u{01234}");
+    match("#\\u{012345}");
+    match("#\\u{0123456}");
+    match("#\\u{00000000000000a0}");
+    match("#\\u{15cF}");
+    match("#\\u{15cG}", false);
+    match("#a\\u{0000}b");
+
+    match("#\\x09", false);
+  });
+
   testToken("RegularExpressionLiteral", [], (match) => {
     match("//", false);
     match("/a/");
@@ -623,13 +798,14 @@ describe("Token", () => {
     match("/?foo/");
     match("/*foo/", false);
 
+    match("/a/d");
     match("/a/g");
     match("/a/m");
     match("/a/i");
     match("/a/y");
     match("/a/u");
     match("/a/s");
-    match("/a/gmiyus");
+    match("/a/dgmiyus");
     match("/a/myg");
     match("/a/e");
     match("/a/E");
@@ -717,11 +893,13 @@ describe("Token", () => {
     match("&");
     match("&&");
     match("&=");
-    match("&&=", "&&");
+    match("&&=");
     match("|");
     match("||");
     match("|=");
-    match("||=", "||");
+    match("||=");
+    match("??");
+    match("??=");
     match("^");
     match("^^", "^");
     match("^=");
@@ -757,9 +935,6 @@ describe("Token", () => {
     match("?.");
     match("x?.a", ["x", "?.", "a"]);
     match("x?.0:1", ["x", "?", ".0", ":", "1"]);
-
-    match("??");
-    match("???", ["??", "?"]);
 
     match("?");
     match("~");
@@ -913,6 +1088,7 @@ describe("JSXToken", () => {
   });
 
   testToken("JSXIdentifier", ["<"], (match) => {
+    match("#div", false);
     match("div");
     match("class");
     match("xml");
@@ -923,6 +1099,7 @@ describe("JSXToken", () => {
     match("-", false);
     match("-f--", ["-", "f--"]);
 
+    match("#", false);
     match("$");
     match("_");
     match("a");
